@@ -23,6 +23,7 @@ export type AppButtonProps = {
     disabled?: boolean;
     ariaLabel?: string;
     tooltip?: string;
+    isOutlined?: boolean;
     tooltipOptions?: Record<string, unknown>;
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
@@ -45,10 +46,10 @@ export default function AppButton(props: AppButtonProps) {
         ariaLabel,
         tooltip,
         tooltipOptions,
-        onClick
+        onClick,
+        isOutlined
     } = props;
 
-    const outlined = variant === 'outlined';
     const text = variant === 'text';
     const pSeverity = severity && severity !== 'primary' ? severity : undefined;
     const pSize = size !== 'normal' ? size : undefined;
@@ -60,12 +61,12 @@ export default function AppButton(props: AppButtonProps) {
             icon={icon}
             iconPos={iconPos}
             severity={pSeverity as any}
-            outlined={outlined}
             text={text}
             rounded={rounded}
             raised={raised}
             size={pSize as any}
             className={cls}
+            outlined={isOutlined}
             type={type}
             loading={loading}
             disabled={disabled}

@@ -1,13 +1,16 @@
-export type TextValidator = (value: string) => string | null;
+export type TextValidator = (v: any) => string | null;
 
-export const required: TextValidator = (v) => (v.trim() === '' ? 'Este campo es obligatorio' : null);
-export const minLen = (n: number): TextValidator => (v) => (v.length < n ? `Mínimo ${n} caracteres` : null);
-export const email: TextValidator = (v) => (/.+@.+\..+/.test(v) ? null : 'Email inválido');
-export const hasLower: TextValidator = (v) => (/[a-z]/.test(v) ? null : 'Debe incluir minúsculas');
-export const hasUpper: TextValidator = (v) => (/[A-Z]/.test(v) ? null : 'Debe incluir mayúsculas');
-export const hasDigit: TextValidator = (v) => (/\d/.test(v) ? null : 'Debe incluir números');
-export const matchField = (otherName: string, otherValue: () => string): TextValidator => (v) =>
-    v === otherValue() ? null : `Debe coincidir con ${otherName}`;
+export const required: TextValidator = (v: any) => {
+    if (v === null || v === undefined) return 'Este campo es obligatorio';
+    if (typeof v === 'string') return v.trim() === '' ? 'Este campo es obligatorio' : null;
+    if (Array.isArray(v)) return v.length === 0 ? 'Este campo es obligatorio' : null;
+    return v ? null : 'Este campo es obligatorio';
+};
+
+export const minLen = (n: number): TextValidator => (v: any) => {
+    const s = typeof v === 'string' ? v : v == null ? '' : String(v);
+    return s.trim().length < n ? `Mínimo ${n} caracteres` : null;
+};
 
 export type NumberValidator = (value: number | null) => string | null;
 export type BoolValidator = (value: boolean) => string | null;
