@@ -1,10 +1,20 @@
 'use client';
 
 import React, { useMemo, useRef, useState } from 'react';
-import { FileUpload, FileUploadHeaderTemplateOptions, FileUploadSelectEvent, FileUploadUploadEvent, ItemTemplateOptions } from 'primereact/fileupload';
+import {
+    FileUpload,
+    FileUploadHeaderTemplateOptions,
+    FileUploadSelectEvent,
+    FileUploadUploadEvent,
+    ItemTemplateOptions
+} from 'primereact/fileupload';
 import { ProgressBar } from 'primereact/progressbar';
 
 export type FilesValidator = (files: File[]) => string | null;
+
+// Si en tu proyecto tienes ButtonProps, usa ese tipo real.
+// Aquí hacemos un normalizador flexible.
+type BtnOpts = Record<string, any> | string | undefined | null;
 
 export type FileUploadFieldProps = {
     name?: string;
@@ -16,9 +26,9 @@ export type FileUploadFieldProps = {
     customHeader?: (opts: FileUploadHeaderTemplateOptions, totalSize: number, formatted: string) => React.ReactNode;
     itemTemplate?: (file: File, opts: ItemTemplateOptions) => React.ReactNode;
     emptyTemplate?: React.ReactNode;
-    chooseOptions?: any;
-    uploadOptions?: any;
-    cancelOptions?: any;
+    chooseOptions?: BtnOpts;
+    uploadOptions?: BtnOpts;
+    cancelOptions?: BtnOpts;
     className?: string;
     disabled?: boolean;
     onSelect?: (files: File[]) => void;
@@ -27,6 +37,13 @@ export type FileUploadFieldProps = {
     validate?: FilesValidator | FilesValidator[];
     showError?: boolean;
 };
+
+function normalizeBtnOpts(opt: BtnOpts) {
+    if (!opt) return {};                 // <- nunca undefined
+    if (typeof opt === 'string') return { label: opt };
+    if (typeof opt === 'object') return opt;
+    return {};
+}
 
 export default function FileUploadField(props: FileUploadFieldProps) {
     const {
@@ -56,18 +73,30 @@ export default function FileUploadField(props: FileUploadFieldProps) {
     };
 
     const headerTemplate = (opts: FileUploadHeaderTemplateOptions) => {
-        const value = totalSize / (maxFileSize ? maxFileSize : 1);
+        const denom = maxFileSize ? maxFileSize : 1;
+        const value = denom > 0 ? totalSize / denom : 0;
         const formatted = ref.current ? ref.current.formatSize(totalSize) : '0 B';
+
         if (customHeader) return customHeader(opts, totalSize, formatted);
-        const { className, chooseButton, uploadButton, cancelButton } = opts;
+
+        // OJO: esta 'className' es la que pasa Prime en opts
+        const { className: headerCls, chooseButton, uploadButton, cancelButton } = opts;
+
         return (
-            <div className={className} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
+            <div className={headerCls} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
                 {chooseButton}
                 {uploadButton}
                 {cancelButton}
                 <div className="flex align-items-center gap-3 ml-auto">
-                    <span>{formatted}{maxFileSize ? ` / ${ref.current?.formatSize(maxFileSize)}` : ''}</span>
-                    <ProgressBar value={Math.min(100, value * 100)} showValue={false} style={{ width: '10rem', height: '12px' }} />
+                    <span>
+                        {formatted}
+                        {maxFileSize ? ` / ${ref.current?.formatSize(maxFileSize)}` : ''}
+                    </span>
+                    <ProgressBar
+                        value={Math.min(100, value * 100)}
+                        showValue={false}
+                        style={{ width: '10rem', height: '12px' }}
+                    />
                 </div>
             </div>
         );
@@ -75,10 +104,11 @@ export default function FileUploadField(props: FileUploadFieldProps) {
 
     const onTemplateSelect = (e: FileUploadSelectEvent) => {
         const list = Array.from(e.files ?? []);
-        const size = list.reduce((acc, f) => acc + (f.size || 0), totalSize);
-        setFiles((prev) => [...prev, ...list]);
+        const nextFiles = [...files, ...list];
+        const size = nextFiles.reduce((acc, f) => acc + (f.size || 0), 0);
+        setFiles(nextFiles);
         setTotalSize(size);
-        setError(runValidation([...files, ...list]));
+        setError(runValidation(nextFiles));
         onSelect?.(list);
     };
 
@@ -109,12 +139,21 @@ export default function FileUploadField(props: FileUploadFieldProps) {
                     </span>
                 </div>
                 <span className="ml-auto mr-2">{opts.formatSize}</span>
-                <button type="button" className="p-button p-button-text p-button-danger p-button-rounded" onClick={() => opts.onRemove(file)}>
+                <button
+                    type="button"
+                    className="p-button p-button-text p-button-danger p-button-rounded"
+                    onClick={() => opts.onRemove(file)}
+                >
                     <i className="pi pi-times" />
                 </button>
             </div>
         );
     };
+
+    // <- Normalizamos aquí para no pasar nunca undefined
+    const chooseOpts = useMemo(() => normalizeBtnOpts(chooseOptions), [chooseOptions]);
+    const uploadOpts = useMemo(() => normalizeBtnOpts(uploadOptions), [uploadOptions]);
+    const cancelOpts = useMemo(() => normalizeBtnOpts(cancelOptions), [cancelOptions]);
 
     return (
         <div className={className}>
@@ -133,9 +172,9 @@ export default function FileUploadField(props: FileUploadFieldProps) {
                 headerTemplate={headerTemplate}
                 itemTemplate={itemTpl}
                 emptyTemplate={emptyTemplate}
-                chooseOptions={chooseOptions}
-                uploadOptions={uploadOptions}
-                cancelOptions={cancelOptions}
+                chooseOptions={chooseOpts}     // <- nunca undefined
+                uploadOptions={uploadOpts}     // <- nunca undefined
+                cancelOptions={cancelOpts}     // <- nunca undefined
                 disabled={disabled}
             />
             {showError && error && <small className="p-error block mt-2">{error}</small>}
