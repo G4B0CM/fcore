@@ -1,27 +1,62 @@
-"use client";
-import { useState } from "react";
-import { login } from "@/services/auth.service";
-import { listOficiales } from "@/services/oficial.service";
+'use client';
 
-export default function Demo() {
-    const [token, setToken] = useState<string>("");
+import { FormProvider, useFormContext } from '@/components/form/FormProvider';
+import FormInputField from '@/components/form/FormInputField';
+import FormInputPassword from '@/components/form/FormInputPassword';
+import { Button } from 'primereact/button';
+import { required } from '@/components/form/validators';
 
-    const doLogin = async () => {
-        const res = await login({ username: "Q1001083", password: "1234" });
-        setToken(res.token);
+function LoginForm() {
+    const form = useFormContext();
+
+    const onValid = async (values: Record<string, unknown>) => {
+        alert('Login OK');
+        console.log(values);
     };
 
-    const loadOficiales = async () => {
-        const data = await listOficiales(token);
-        console.log(data);
+    const onInvalid = async () => {
+        alert('Usuario o contraseña requeridos');
     };
 
     return (
-        <div>
-            <button onClick={doLogin}>Login</button>
-            <button onClick={loadOficiales} disabled={!token}>
-                Cargar oficiales
-            </button>
+        <form onSubmit={form.handleSubmit(onValid, onInvalid)} className="space-y-4 max-w-md">
+            <FormInputField
+                name="username"
+                label="Usuario"
+                validators={[required]}
+                containerClassName="w-full"
+                className="w-full"
+                autoComplete="username"
+                required
+            />
+
+            <FormInputPassword
+                name="password"
+                label="Contraseña"
+                validators={[required]}
+                containerClassName="w-full"
+                className="w-full"
+                autoComplete="current-password"
+                required
+                feedback={false}
+                showHelp={false}
+                toggleMask
+            />
+
+            <Button type="submit" label="Entrar" />
+        </form>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <div className="p-4">
+            <FormProvider
+                initialValues={{ username: '', password: '' }}
+                defaults={{ validateOn: 'both', touchOnMount: false, validateOnMount: false }}
+            >
+                <LoginForm />
+            </FormProvider>
         </div>
     );
 }
