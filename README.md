@@ -1,6 +1,6 @@
 # FCORE – Fraud Detection Core System
 
-![FCORE](FcoreLoginImage.png)
+![FCORE](./FcoreLoginImage.png)
 [![Status](https://img.shields.io/badge/status-in%20development-yellow)]()
 
 
