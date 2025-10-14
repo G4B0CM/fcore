@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+bcrypt
+pytest
+dotenv
+sqlalchemy
+PyJWT
+pydantic-settings
