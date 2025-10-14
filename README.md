@@ -67,16 +67,16 @@ _User interface is minimal / in progress._
 2. **Run initalization commands**
 
 - Backend:
-```bash
-    cd BE-FCORE
-    .\env\Scripts\activate
-    cd src
-    python main.py
+    ```bash
+        cd BE-FCORE
+        .\env\Scripts\activate
+        cd src
+        python main.py
 
 - Frontend:
-```bash
-    npm i next
-    npm run dev
+    ```bash
+        npm i next
+        npm run dev
 
 4. **Access services**
 - Backend API: http://localhost:8080
