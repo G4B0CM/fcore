@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FCORE – Fraud Detection Core System
 
-## Getting Started
+![FCORE Logo (puedes insertar aquí tu imagen)](path/to/logo.png)
 
-First, run the development server:
+[![Status](https://img.shields.io/badge/status-in%20development-yellow)]()
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📋 Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [About the Project](#about-the-project)  
+- [Current Stage](#current-stage)  
+- [Features Implemented](#features-implemented)  
+- [How to Run It](#how-to-run-it)  
+- [Technologies Used](#technologies-used)  
+- [Future Features](#future-features)  
+- [Contributors](#contributors)  
+- [License](#license)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏗️ About the Project
 
-To learn more about Next.js, take a look at the following resources:
+FCORE is a **fraud detection core platform** designed to simulate a real-world banking scenario in Ecuador (USD).  
+Its aim is to combine rule-based logic, machine learning scoring, and streaming/behavioral updates to identify fraudulent transactions.  
+This project is developed under rigorous principles (KISS, SOLID, Clean Architecture) and will be presented as a demonstration robust enough for academic evaluation.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚧 Current Stage
 
-## Deploy on Vercel
+> :construction: **Under active development**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+At this moment, the project includes:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **User Authentication** (login with JWT stored in HTTP-only cookies)  
+- **CRUD for Analysts / Users** (creation, retrieval, update, deletion)  
+- Role-based access control (ADMIN vs ANALYST) in the backend  
+- Foundation of Clean Architecture and modular structure  
+
+You can use it as the groundwork to add the core fraud functionality in upcoming phases.
+
+---
+
+## ✅ Features Implemented
+
+| Feature | Description |
+|--------|-------------|
+| **Login / Auth** | Analysts or admins can log in and receive access via secure cookies |
+| **User & Role CRUD** | Admins can create, update, list, and delete analyst users; assign roles |
+| **RBAC Enforcement** | Endpoints protected by roles (only admins can manage users) |
+
+_User interface is minimal / in progress._
+
+---
+
+## ▶️ How to Run It (Development)
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/yourusername/fcore.git
+   cd fcore
+
+2. **Configure environment variables**
+
+In backend/.env — set DATABASE_URL, SECRET_KEY, etc.
+In frontend/.env.local — set NEXT_PUBLIC_API_URL=http://localhost:8080/v1
+
+
+3. **Access services**
+> Backend API: http://localhost:8080
+> Frontend UI: http://localhost:3000
+
+4. **Authentication / Admin seeds**
+The backend seeds a default admin and analyst user (check scripts/seed_users.py). Use those credentials to log in and manage users.
+
+---
+
+## 🛠️ Technologies Used
+- Backend: Python, FastAPI, Pydantic, SQLAlchemy, Alembic
+- Database: SQLite + (in future -> PostgreSQL)
+- Auth / Security: JWT, bcrypt / argon2, RBAC
+- Architecture: Clean Architecture (domain, use_cases, adapters, infrastructure)
+- Frontend: Next.js (React), PrimeReact, React Query, zod
+- DevOps: Docker + Docker Compose
+- Streams / Messaging: (planeado) Kafka
+
+---
+
+## 🔮 Future Features (Roadmap)
+- Ingest transactions (streaming / API)
+- Behavioral profile table + continuous updating
+- Rule engine + rule hits explanations
+- ML scoring (XGBoost) y combinación con reglas
+- UI de alertas, investigacion, simulación
+- Export de alertas / reportes (XLSX)
+- Dashboard métricas (Grafana / Prometheus)
+- Autenticación avanzada, audit logs, monitoreo
+
+---
+
+## 👥 Contributors
+Name	                    Role / Contact
+Gabriel Calderon(G4B0CM)	Lead Developer & Architect
+
+---
+
+## 📜 License
+This project is licensed under the MIT License — feel free to use, modify and distribute as needed.
