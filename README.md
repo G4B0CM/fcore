@@ -1,6 +1,8 @@
 # FCORE – Fraud Detection Core System
 
+![FCORE](FcoreLoginImage.png)
 [![Status](https://img.shields.io/badge/status-in%20development-yellow)]()
+
 
 ---
 
@@ -52,7 +54,7 @@ _User interface is minimal / in progress._
 
 ---
 
-## ▶️ How to Run It (Development)
+## ▶️ How to Run It
 
 1. **Clone the repo**
    ```bash
@@ -98,7 +100,7 @@ The backend seeds a default admin and analyst user (check scripts/seed_users.py)
 
 ---
 
-## 🔮 Future Features (Roadmap)
+## 🔮 Future Features
 - Ingest transactions (streaming / API)
 - Behavioral profile table + continuous updating
 - Rule engine + rule hits explanations
