@@ -63,15 +63,28 @@ _User interface is minimal / in progress._
 
 2. **Configure environment variables**
 
-In backend/.env — set DATABASE_URL, SECRET_KEY, etc.
-In frontend/.env.local — set NEXT_PUBLIC_API_URL=http://localhost:8080/v1
+- In backend/.env — set DATABASE_URL, SECRET_KEY, etc.
+- In frontend/.env.local — set NEXT_PUBLIC_API_URL=http://localhost:8080/v1
 
+2. **Run initalization commands**
 
-3. **Access services**
-> Backend API: http://localhost:8080
-> Frontend UI: http://localhost:3000
+- Backend:
+```bash
+    cd BE-FCORE
+    .\env\Scripts\activate
+    cd src
+    python main.py
 
-4. **Authentication / Admin seeds**
+- Frontend:
+```bash
+    npm i next
+    npm run dev
+
+4. **Access services**
+- Backend API: http://localhost:8080
+- Frontend UI: http://localhost:3000
+
+5. **Authentication / Admin seeds**
 The backend seeds a default admin and analyst user (check scripts/seed_users.py). Use those credentials to log in and manage users.
 
 ---
@@ -100,8 +113,9 @@ The backend seeds a default admin and analyst user (check scripts/seed_users.py)
 ---
 
 ## 👥 Contributors
-Name	                    Role / Contact
-Gabriel Calderon(G4B0CM)	Lead Developer & Architect
+| Name	                   | Role / Contact |
+|--------------------------|----------------|
+|Gabriel Calderon(G4B0CM)	|Lead Developer & Architect|
 
 ---
 
