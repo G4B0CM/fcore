@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import SelectField, { SelectFieldProps, SelectValidator } from '@/components/ui/SelectField';
 import { useFormContext, FieldValidator } from './FormProvider';
+import { classNames } from 'primereact/utils';
 
 type BaseProps<T> = Omit<
     SelectFieldProps<T>,
@@ -48,6 +49,7 @@ export default function FormSelectField<T>(props: FormSelectFieldProps<T>) {
             validateOn={validateOn ?? form.defaults.validateOn ?? 'blur'}
             initiallyTouched={initiallyTouched ?? form.defaults.touchOnMount ?? false}
             validateOnMount={validateOnMount ?? form.defaults.validateOnMount ?? false}
+            className={classNames('w-full', props.className)}
         />
     );
 }

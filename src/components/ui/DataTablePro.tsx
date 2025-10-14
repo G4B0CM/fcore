@@ -41,8 +41,8 @@ export type DataTableProProps<T> = {
     filters?: DataTableFilterMeta;
     globalFilterFields?: string[];
     globalPlaceholder?: string;
-    headerLeft?: ReactNode;
-    headerRight?: ReactNode;
+    headerLeft?: React.ReactNode;
+    headerRight?: React.ReactNode;
     selectionMode?: 'single' | 'multiple';
     selection?: any;
     onSelectionChange?: (e: DataTableSelectionMultipleChangeEvent<T> | DataTableSelectionSingleChangeEvent<T>) => void;
@@ -51,6 +51,7 @@ export type DataTableProProps<T> = {
     className?: string;
     stateKey?: string;
     stateStorage?: 'session' | 'local';
+    rowsPerPageOptions?: number[];   // <--- NUEVO
 };
 
 export default function DataTablePro<T>(props: DataTableProProps<T>) {
@@ -78,7 +79,8 @@ export default function DataTablePro<T>(props: DataTableProProps<T>) {
         emptyMessage = 'Sin resultados',
         className,
         stateKey,
-        stateStorage
+        stateStorage,
+        rowsPerPageOptions      // <--- NUEVO
     } = props;
 
     const controlledFilters = !!filters;
@@ -129,6 +131,7 @@ export default function DataTablePro<T>(props: DataTableProProps<T>) {
             loading={loading}
             paginator={paginator}
             rows={rows}
+            rowsPerPageOptions={rowsPerPageOptions}   // <--- NUEVO
             totalRecords={totalRecords}
             lazy={lazy}
             onPage={onPage}

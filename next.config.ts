@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         hostname: 'primefaces.org',
         pathname: '/cdn/primereact/**',
       },
+      {
+        protocol: 'https',
+        hostname: '4kwallpapers.com',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.piranirisk.com',
+        pathname: '/hs-fs/hubfs/**',
+      },
     ],
   },
 };

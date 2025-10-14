@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { InputValidator as TextValidator } from '@/components/ui/FloatLabelInput';
 import { useFormContext, FieldValidator } from './FormProvider';
 import InputField from '../ui/FloatLabelInput';
+import { classNames } from 'primereact/utils';
 
 export type FormInputFieldProps = Omit<
     React.ComponentProps<typeof InputField>,
@@ -47,6 +48,7 @@ export default function FormInputField(props: FormInputFieldProps) {
             validateOn={validateOn ?? form.defaults.validateOn ?? 'blur'}
             initiallyTouched={initiallyTouched ?? form.defaults.touchOnMount ?? false}
             validateOnMount={validateOnMount ?? form.defaults.validateOnMount ?? false}
+            className={classNames('w-full', props.className)}
         />
     );
 }

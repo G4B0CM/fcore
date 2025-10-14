@@ -10,7 +10,9 @@ type Props = {
 
 export default function AppHeader({ onToggleSidebar, username }: Props) {
     return (
-        <header className="w-full bg-surface-0 border-bottom-1 surface-border shadow-1 flex align-items-center px-3 justify-content-between fixed top-0 left-0 z-5" style={{ height: '4rem' }}>
+        <header className="w-full bg-surface-0 border-bottom-1 surface-border shadow-1 
+        flex align-items-center px-3 justify-content-between 
+        fixed top-0 left-0 z-5" style={{ height: '4rem', background: 'url(https://wallpapershome.com/images/pages/pic_h/26426.jpg)' }}>
             <div className="flex align-items-center gap-3">
                 <Button icon="pi pi-bars" rounded severity="secondary" outlined onClick={onToggleSidebar} aria-label="Menú" />
                 <div className="flex align-items-baseline gap-2">

@@ -28,17 +28,10 @@ export type SelectFieldProps<T> = {
     filterPlaceholder?: string;
     itemTemplate?: (option: T) => React.ReactNode;
     valueTemplate?: (option: T | null, props: any) => React.ReactNode;
-    appendTo?: 'self' | HTMLElement | null | undefined;
+    appendTo?: 'self' | 'body' | HTMLElement | null | undefined;
     initiallyTouched?: boolean;
     validateOnMount?: boolean;
 };
-
-function getLabel<T>(opt: T, optionLabel?: keyof T | ((o: T) => string)) {
-    if (!opt) return '';
-    if (typeof optionLabel === 'function') return optionLabel(opt);
-    if (typeof optionLabel === 'string') return String((opt as any)[optionLabel]);
-    return String(opt);
-}
 
 const SelectFieldInner = <T,>(props: SelectFieldProps<T>, ref: React.Ref<HTMLDivElement>) => {
     const {
@@ -127,9 +120,8 @@ const SelectFieldInner = <T,>(props: SelectFieldProps<T>, ref: React.Ref<HTMLDiv
                     panelClassName={panelClassName}
                     itemTemplate={itemTemplate as any}
                     valueTemplate={valueTemplate as any}
-                    appendTo={appendTo}
                 />
-                <label htmlFor={inputId}>{value ? getLabel<T>(value, optionLabel) : label}</label>
+                <label htmlFor={inputId}>{label}</label>
             </FloatLabel>
             {showError && invalid && <small className="p-error block mt-1">{error}</small>}
         </div>

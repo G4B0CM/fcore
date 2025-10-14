@@ -7,10 +7,26 @@ export const required: TextValidator = (v: any) => {
     return v ? null : 'Este campo es obligatorio';
 };
 
+export const qcode: TextValidator = (v: any) => {
+    if (v == null || (typeof v === 'string' && v.trim() === '')) return null;
+    const s = typeof v === 'string' ? v : String(v);
+    return /^Q\d{7,8}$$/.test(s) ? null : 'Debe empezar con "Q" y tener entre 7 y 8 dígitos';
+}
+
 export const minLen = (n: number): TextValidator => (v: any) => {
     const s = typeof v === 'string' ? v : v == null ? '' : String(v);
     return s.trim().length < n ? `Mínimo ${n} caracteres` : null;
 };
+
+export const maxLen = (n: number): TextValidator => (v: any) => {
+    const s = typeof v === 'string' ? v : v == null ? '' : String(v);
+    return s.trim().length > n ? `Máximo ${n} caracteres` : null;
+};
+
+export const equalPasswords = (pass: string | null, passCheck: string | null) => {
+    if (pass == null || passCheck == null) return 'Las contraseñas no coinciden';
+    return pass !== passCheck ? 'Las contraseñas no coinciden' : null;
+}
 
 export type NumberValidator = (value: number | null) => string | null;
 export type BoolValidator = (value: boolean) => string | null;

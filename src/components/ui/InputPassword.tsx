@@ -4,6 +4,7 @@ import React, { forwardRef, useEffect, useId, useMemo, useState } from 'react';
 import { Password } from 'primereact/password';
 import { FloatLabel } from 'primereact/floatlabel';
 import { Divider } from 'primereact/divider';
+import { classNames } from 'primereact/utils';
 
 export type InputValidator = (value: string) => string | null;
 type ValidateOn = 'blur' | 'change' | 'both';
@@ -115,15 +116,16 @@ const InputPassword = forwardRef<HTMLInputElement, InputPasswordProps>(function 
     const computedFooter = showHelp ? footer ?? <DefaultFooter /> : undefined;
 
     return (
-        <div className={containerClassName}>
-            <FloatLabel>
+        <div className={classNames('w-full', containerClassName)}>
+            <FloatLabel className='w-full'>
                 <Password
                     inputId={inputId}
                     name={name}
                     value={value}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    inputClassName={inputClassName}
+                    className="w-full"
+                    inputClassName={classNames('w-full', inputClassName)}
                     disabled={disabled}
                     toggleMask={toggleMask}
                     autoComplete={autoComplete}

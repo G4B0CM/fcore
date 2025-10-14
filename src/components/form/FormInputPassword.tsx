@@ -5,6 +5,7 @@ import InputPassword, {
     InputValidator as PwdValidator
 } from '@/components/ui/InputPassword';
 import { useFormContext, FieldValidator } from './FormProvider';
+import { classNames } from 'primereact/utils';
 
 export type FormInputPasswordProps = Omit<
     React.ComponentProps<typeof InputPassword>,
@@ -48,6 +49,8 @@ export default function FormInputPassword(props: FormInputPasswordProps) {
             validateOn={validateOn ?? form.defaults.validateOn ?? 'blur'}
             initiallyTouched={initiallyTouched ?? form.defaults.touchOnMount ?? false}
             validateOnMount={validateOnMount ?? form.defaults.validateOnMount ?? false}
+            className={classNames('w-19rem', props.className)}
+            containerClassName={classNames('w-full', props.containerClassName)}
         />
     );
 }
